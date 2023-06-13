@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        li {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <ul>
+        <li><button onclick="addCookies()">添加</button></li>
+        <li><button onclick="delCookies()">删除</button></li>
+        <li><button onclick="updateCookies()">更新</button></li>
+        <li><button onclick="getCookies()">查询</button></li>
+    </ul>
+</body>
+<script>
+    function addCookies() {
+        fetch("/addCookies", {
+            method: "post",
+            headers: {
+                "Content-type": "application/json"
+            }
+        });
+    }
+    function delCookies() {
+        fetch("/delCookies", {
+            method: "post",
+            headers: {
+                "Content-type": "application/json"
+            }
+        });
+    }
+    function updateCookies() {
+        fetch("/updateCookies", {
+            method: "post",
+            headers: {
+                "Content-type": "application/json"
+            }
+        });
+    }
+    function getCookies() {
+        fetch("/getCookies", {
+            method: "post",
+            headers: {
+                "Content-type": "application/json"
+            }
+        });
+    }
+</script>
+
+</html>

@@ -10,13 +10,26 @@
 
 <body>
     <button onclick="addSession()">添加session</button>
+    <button onclick="delSession()">删除session</button>
     <h3>
-        <%=username%>
+        username is <%=username%>
+            <p>
+                id is <%=id%>,age is <%=age%>,name is <%=name%>
+            </p>
+            <%=counter%>
     </h3>
 </body>
 <script>
     function addSession() {
         fetch("/addSession", {
+            method: "post",
+            headers: {
+                "Content-type": "application/json"
+            }
+        })
+    }
+    function delSession() {
+        fetch("/delSession", {
             method: "post",
             headers: {
                 "Content-type": "application/json"

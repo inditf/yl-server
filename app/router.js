@@ -21,6 +21,18 @@ module.exports = app => {
   router.post('/getCookies', controller.cookies.getCookies);
   router.post('/updateCookies', controller.cookies.updateCookies);
   //session
+  const counter = app.middleware.counter();
   router.post('/addSession', controller.session.addSession);
-  router.get('/session', controller.session.sessionIndex);
+  router.post('/delSession', controller.session.delSession);
+  router.get('/session', counter, controller.session.sessionIndex);
+  //login
+  router.get('/home', controller.home.index);
+  router.get('/login', controller.home.login);
+  router.post('/login', controller.home.loginPost);
+  router.post('/logout', controller.home.logout);
+  //jwt
+  router.get('/jwt', controller.jwt.index);
+  router.post('/jwtlogin', controller.jwt.login);
+  router.get('/jwtmessage', controller.jwt.getMessage);
+
 };

@@ -11,8 +11,18 @@ class SessionController extends Controller {
             data: "添加成功"
         };
     }
+    async delSession() {
+        const { ctx } = this;
+        //删除session
+        ctx.session.username = null;
+        ctx.body = {
+            status: 200,
+            data: "删除成功"
+        };
+    }
     async sessionIndex() {
         const { ctx } = this;
+        const counter = ctx.session.counter;
         //获取session
         const username = ctx.session.username;
         await ctx.render(
@@ -22,6 +32,7 @@ class SessionController extends Controller {
             age: 18,
             // 赋值给模板
             username,
+            counter,
         });
     }
 

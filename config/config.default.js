@@ -34,6 +34,7 @@ module.exports = appInfo => {
 
   config.cors = {
     // origin: '*', //允许所有跨域访问，注释掉则允许上面 白名单 访问
+    // origin: 'http://localhost:3000', //只允许这个域进行访问接口
     credentials: true, // 允许 Cookie 跨域
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
   };
@@ -54,7 +55,26 @@ module.exports = appInfo => {
   config.jwt = {
     secret: "123456"//自定义 token 的加密条件字符串
   };
-
+  // //mysql
+  // config.mysql = {
+  //   // database configuration
+  //   client: {
+  //     // host
+  //     host: 'localhost',
+  //     // port
+  //     port: '3306',
+  //     // username
+  //     user: 'root',
+  //     // password
+  //     password: '12345678',
+  //     // database
+  //     database: 'react_blog',
+  //   },
+  //   // load into app, default is open
+  //   app: true,
+  //   // load into agent, default is close
+  //   agent: false,
+  // };
   return {
     ...config,
     ...userConfig,

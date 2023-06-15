@@ -1,6 +1,6 @@
 # yl-server
 
-server
+egg.js后台，jwt验证
 
 ## QuickStart
 

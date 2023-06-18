@@ -4,7 +4,6 @@ class JwtController extends Controller {
     async index() {
         let data = this.ctx.params;
         this.ctx.body = data;
-
     }
     async login() {
         let username = this.ctx.request.body.username;
@@ -31,7 +30,7 @@ class JwtController extends Controller {
             this.ctx.body = {
                 code: 2000,
                 msg: "jwt success",
-                // data: decode.username,
+                data: decode,
             }
         }
         catch (err) {

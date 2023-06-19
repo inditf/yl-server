@@ -2,7 +2,7 @@
 
 egg.js后台，jwt验证登录
 
-前台在[yl-web](https://github.com/inditf/yl-web)项目中
+前台地址：[`yl-web`](https://github.com/inditf/yl-web)
 
 ## QuickStart
 

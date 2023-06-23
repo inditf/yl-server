@@ -20,6 +20,9 @@ module.exports = app => {
   router.post('/jwtdeleteUser', checkToken, controller.jwt.deleteUser);
   router.post('/jwtupdateUser', checkToken, controller.jwt.updateUser);
   router.get('/jwtqueryUser', checkToken, controller.jwt.queryUser);
+  //注销用户
+  router.get('/jwtdestory', checkToken, controller.jwt.destoryUser);
+
 
 
 };

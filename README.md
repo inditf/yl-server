@@ -3,6 +3,14 @@
 egg.js后台，jwt验证登录
 
 前台地址：[`yl-web`](https://github.com/inditf/yl-web)
+### 1.用户账号操作
+1. `/jwtcreatuser` “post” 
+2. `/jwtqueryUser` "get" `token验证`
+3. `/jwtupdateUser` "post" `token验证`
+4. `/jwtdeleteUser` "post" `token验证`
+### 2.登录验证
+1. `/jwtlogin` “post”
+2. `/jwtmessage` "get" `token验证`
 
 ## QuickStart
 

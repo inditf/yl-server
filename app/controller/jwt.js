@@ -6,11 +6,6 @@ let userList = [
     }
 ];
 class JwtController extends Controller {
-
-    async index() {//jwt
-        let data = this.ctx.params;
-        this.ctx.body = data;
-    }
     async createUserPage() {//jwtcreateUserPage
         this.ctx.body = `
             <form method ='post' action='/jwtcreatuser'>
@@ -80,6 +75,25 @@ class JwtController extends Controller {
             code: 5000,
             msg: '用户不存在或密码错误',
         }
+    }
+    async destoryUser() {//jwtdeleteUser 删除用户
+        let secret = this.ctx.app.config.jwt.secret;
+        let user = this.ctx.app.jwt.verify(this.ctx.request.header.token, secret);
+        console.log(user);
+        for (let i = 0; i < userList.length; i++) {
+            if (userList[i].username === user.username) {
+                userList.splice(i, 1);
+                return this.ctx.body = {
+                    code: 2000,
+                    msg: '用户注销成功',
+                    user: user.username,
+                }
+            }
+        }
+        this.ctx.body = {
+            code: 5000,
+            msg: '用户注销错误',
+        }
 
     }
     async updateUser() {//jwtupdateUser 更新用户
@@ -126,6 +140,7 @@ class JwtController extends Controller {
             this.ctx.body = {
                 code: 2000,
                 token: token,
+                msg: '登录成功',
             };
         }
         else {
@@ -136,10 +151,11 @@ class JwtController extends Controller {
             };
         }
     }
+    //Token验证
     async getMessage() {//jwtmessage
         this.ctx.body = {
             code: 2000,
-            msg: "jwt success",
+            msg: "Token验证成功",
         }
 
     }

@@ -1,5 +1,5 @@
 # node镜像
-FROM node:12-alpine
+FROM node:18.16-alpine
 
 # 设置时区
 RUN apk --update add tzdata \
@@ -22,7 +22,9 @@ COPY package.json /usr/src/app/package.json
 
 # 安装npm依赖(使用淘宝的镜像源)
 # 如果使用的境外服务器，无需使用淘宝的镜像源，即改为`RUN npm i`。
-RUN npm i --production --registry=https://registry.npm.taobao.org
+RUN npm install  yarn 
+RUN yarn install 
+# --production --registry=https://registry.npm.taobao.org
 
 # 拷贝所有源代码到工作目
 COPY . /usr/src/app
@@ -30,4 +32,4 @@ COPY . /usr/src/app
 # 暴露容器端口
 EXPOSE 7001
 
-CMD npm run start
+CMD yarn dev

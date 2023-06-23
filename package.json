@@ -15,7 +15,7 @@
     "egg-view-ejs": "^3.0.0"
   },
   "devDependencies": {
-    "egg-bin": "^5",
+    "egg-bin": "^6.4.1",
     "egg-ci": "^2",
     "egg-mock": "^5",
     "eslint": "^8",

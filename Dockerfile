@@ -1,28 +1,22 @@
-FROM alpine:3.13
-
-# 容器默认时区为UTC，如需使用上海时间请启用以下时区设置命令
-# RUN apk add tzdata && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo Asia/Shanghai > /etc/timezone
-
-# 安装依赖包，如需其他依赖包，请到alpine依赖包管理(https://pkgs.alpinelinux.org/packages?name=php8*imagick*&branch=v3.13)查找。
-RUN apk add --update --no-cache nodejs npm
-
-# # 指定工作目录
-WORKDIR /app
-
-# 拷贝包管理文件
-COPY package*.json /app
-
-# npm 源，选用国内镜像源以提高下载速度
-RUN npm config set registry https://mirrors.cloud.tencent.com/npm/
-# RUN npm config set registry https://registry.npm.taobao.org/
-
-# npm 安装依赖
-RUN npm install
-
-# 将当前目录（dockerfile所在目录）下所有文件都拷贝到工作目录下（.gitignore中的文件除外）
-COPY . /app
-
-# 执行启动命令.
-# 写多行独立的CMD命令是错误写法！只有最后一行CMD命令会被执行，之前的都会被忽略，导致业务报错。
-# 请参考[Docker官方文档之CMD命令](https://docs.docker.com/engine/reference/builder/#cmd)
-CMD ["npm", "start"]
+# 设置基础镜像,如果本地没有该镜像，会从Docker.io服务器pull镜像
+FROM node:16.18.0 
+#配置环境变量
+ENV NODE_ENV production 
+#这个是容器中的文件目录
+RUN mkdir -p /usr/src/app 
+#设置工作目录
+WORKDIR /usr/src/app
+# 拷贝package.json文件到工作目录
+# !!重要：package.json需要单独添加。
+# Docker在构建镜像的时候，是一层一层构建的，仅当这一层有变化时，重新构建对应的层。
+# 如果package.json和源代码一起添加到镜像，则每次修改源码都需要重新安装npm模块，这样木有必要。
+# 所以，正确的顺序是: 添加package.json；安装npm模块；添加源代码。
+COPY package.json /usr/src/app/package.json
+# 安装npm依赖(使用淘宝的镜像源)
+# 如果使用的境外服务器，无需使用淘宝的镜像源，即改为`RUN npm i`。
+RUN npm i --production --registry=https://registry.npm.taobao.org
+# 拷贝所有源代码到工作目
+COPY . /usr/src/app
+# 暴露容器端口
+EXPOSE 7001
+CMD npm start

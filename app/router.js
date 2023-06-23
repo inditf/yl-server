@@ -3,37 +3,23 @@
 /**
  * @param {Egg.Application} app - egg application
  */
+
 module.exports = app => {
   const { router, controller } = app;
-  router.get('/', controller.home.index);
-  //get请求
-  router.get('/queryGet', controller.user.queryGet);
-  router.get('/paramsGet/:username/:password', controller.user.paramsGet);
-  //post请求
-  router.post('/add', controller.user.add);
-  router.post('/postservice', controller.user.postservice);
-  router.get('/getservice', controller.user.getservice);
-  //ejs
-  router.get('/index', controller.ejs.index);
-  //cookie
-  router.post('/addCookies', controller.cookies.addCookies);
-  router.post('/delCookies', controller.cookies.delCookies);
-  router.post('/getCookies', controller.cookies.getCookies);
-  router.post('/updateCookies', controller.cookies.updateCookies);
-  //session
-  const counter = app.middleware.counter();
-  router.post('/addSession', controller.session.addSession);
-  router.post('/delSession', controller.session.delSession);
-  router.get('/session', counter, controller.session.sessionIndex);
-  //login
-  router.get('/home', controller.home.index);
-  router.get('/login', controller.home.login);
-  router.post('/login', controller.home.loginPost);
-  router.post('/logout', controller.home.logout);
-  //jwt
-  const checkToken = app.middleware.checktoken();
-  router.get('/jwt', controller.jwt.index);
   router.post('/jwtlogin', controller.jwt.login);
+  //jwt middleware验证token 
+  const checkToken = app.middleware.checktoken();
   router.get('/jwtmessage', checkToken, controller.jwt.getMessage);
+  // //restful
+  // //router.resources('posts', '/api/posts', controller.posts);
+  //user operation
+  router.get('/jwtcreateUserPage', controller.jwt.createUserPage);
+  //增加 不需要token验证
+  router.post('/jwtcreatuser', controller.jwt.createUser);
+  //删除 修改 查询 需要token验证
+  router.post('/jwtdeleteUser', checkToken, controller.jwt.deleteUser);
+  router.post('/jwtupdateUser', checkToken, controller.jwt.updateUser);
+  router.get('/jwtqueryUser', checkToken, controller.jwt.queryUser);
+
 
 };

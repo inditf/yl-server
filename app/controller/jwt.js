@@ -76,10 +76,9 @@ class JwtController extends Controller {
             msg: '用户不存在或密码错误',
         }
     }
-    async destoryUser() {//jwtdeleteUser 删除用户
+    async destoryUser() {//jwtdestory 注销用户
         let secret = this.ctx.app.config.jwt.secret;
         let user = this.ctx.app.jwt.verify(this.ctx.request.header.token, secret);
-        console.log(user);
         for (let i = 0; i < userList.length; i++) {
             if (userList[i].username === user.username) {
                 userList.splice(i, 1);
@@ -100,14 +99,23 @@ class JwtController extends Controller {
         let user = {
             username: this.ctx.request.body.username,
             password: this.ctx.request.body.password,
+            newpassword: this.ctx.request.body.newpassword,
         }
         for (let i = 0; i < userList.length; i++) {
             if (userList[i].username === user.username) {
-                userList[i].password = user.password;
-                return this.ctx.body = {
-                    code: 2000,
-                    msg: '更新用户密码成功',
-                    user: user.username,
+                if (userList[i].password == user.password) {
+                    userList[i].password = user.newpassword;
+                    return this.ctx.body = {
+                        code: 2000,
+                        msg: '更新用户密码成功',
+                        user: user.username,
+                    }
+                }
+                else {
+                    return this.ctx.body = {
+                        code: 5000,
+                        msg: '用户密码错误',
+                    }
                 }
             }
         }

@@ -5,7 +5,7 @@ function checktoken() {
             let secret = ctx.app.config.jwt.secret;
             let decode = ctx.app.jwt.verify(token, secret);
             if (decode.username) {
-                console.log("middle checktoken success");
+                // console.log("middle checktoken success");
                 await next();
             }
             else {
@@ -21,24 +21,6 @@ function checktoken() {
                 msg: "token error",
             }
         }
-
-
-
-        // if (token) {
-        //     try {
-        //         const payload = await verify(token.split(' ')[1], secret)
-        //         ctx.state.user = {
-        //             id: payload.id,
-        //             name: payload.name,
-        //             email: payload.email
-        //         }
-        //         await next()
-        //     } catch (err) {
-        //         ctx.throw(401, err)
-        //     }
-        // } else {
-        //     ctx.throw(401, '没有token')
-        // }
     }
 }
 module.exports = checktoken;

@@ -33,7 +33,7 @@ module.exports = appInfo => {
   };
 
   config.cors = {
-    // origin: '*', //允许所有跨域访问，注释掉则允许上面 白名单 访问
+    origin: '*', //允许所有跨域访问，注释掉则允许上面 白名单 访问
     // origin: 'http://localhost:3000', //只允许这个域进行访问接口
     credentials: true, // 允许 Cookie 跨域
     allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',

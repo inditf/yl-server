@@ -36,44 +36,52 @@ class JwtController extends Controller {
     }
 
     async createUser() {//jwtcreateUser 增加用户
-        let user = {
+        const user = {
             username: this.ctx.request.body.username,
             password: this.ctx.request.body.password,
         }
         for (let i = 0; i < userList.length; i++) {
             if (userList[i].username == user.username) {
-                return this.ctx.body = {
-                    code: 5000,
+                this.ctx.body = {
+                    code: 500,
                     msg: '用户名已存在',
-                }
+                    data: null,
+                };
+                return;
 
             }
         }
         userList.push(user);
         this.ctx.body = {
-            code: 2000,
+            code: 200,
             msg: '创建用户成功',
-            user: user.username,
-        }
+            data: {
+                username: user.username,
+            },
+        };
     }
     async deleteUser() {//jwtdeleteUser 删除用户
         let user = {
             username: this.ctx.request.body.username,
             password: this.ctx.request.body.password,
-        }
+        };
         for (let i = 0; i < userList.length; i++) {
             if (userList[i].username === user.username && userList[i].password === user.password) {
                 userList.splice(i, 1);
-                return this.ctx.body = {
-                    code: 2000,
+                this.ctx.body = {
+                    code: 200,
                     msg: '删除用户成功',
-                    user: user.username,
-                }
+                    data: {
+                        user: user.username,
+                    },
+                };
+                return;
             }
         }
         this.ctx.body = {
-            code: 5000,
+            code: 500,
             msg: '用户不存在或密码错误',
+            data: null,
         }
     }
     async destoryUser() {//jwtdestory 注销用户
@@ -82,17 +90,21 @@ class JwtController extends Controller {
         for (let i = 0; i < userList.length; i++) {
             if (userList[i].username === user.username) {
                 userList.splice(i, 1);
-                return this.ctx.body = {
-                    code: 2000,
+                this.ctx.body = {
+                    code: 200,
                     msg: '用户注销成功',
-                    user: user.username,
-                }
+                    data: {
+                        user: user.username,
+                    },
+                };
+                return;
             }
         }
         this.ctx.body = {
-            code: 5000,
+            code: 500,
             msg: '用户注销错误',
-        }
+            data: null,
+        };
 
     }
     async updateUser() {//jwtupdateUser 更新用户
@@ -105,32 +117,38 @@ class JwtController extends Controller {
             if (userList[i].username === user.username) {
                 if (userList[i].password == user.password) {
                     userList[i].password = user.newpassword;
-                    return this.ctx.body = {
-                        code: 2000,
+                    this.ctx.body = {
+                        code: 200,
                         msg: '更新用户密码成功',
-                        user: user.username,
-                    }
+                        data: {
+                            user: user.username,
+                        },
+                    };
+                    return;
                 }
                 else {
-                    return this.ctx.body = {
-                        code: 5000,
+                    this.ctx.body = {
+                        code: 500,
                         msg: '用户密码错误',
-                    }
+                        data: null,
+                    };
+                    return;
                 }
             }
         }
         this.ctx.body = {
-            code: 5000,
+            code: 500,
             msg: '用户不存在',
-        }
+            data: null,
+        };
 
     }
     async queryUser() {//jwtgetUser 获取用户列表
         this.ctx.body = {
-            code: 2000,
+            code: 200,
             msg: '获取用户成功',
             data: userList,
-        }
+        };
     }
     //登录验证
     async login() {///jwtlogin
@@ -138,34 +156,37 @@ class JwtController extends Controller {
             username: this.ctx.request.body.username,
             password: this.ctx.request.body.password
         };
-        let token = null;
         for (let i = 0; i < userList.length; i++) {
             if (userList[i].username === user.username && userList[i].password === user.password) {
-                token = this.ctx.app.jwt.sign({ username: user.username }, this.ctx.app.config.jwt.secret);
+                let token = this.ctx.app.jwt.sign({
+                    username: user.username
+                }, this.ctx.app.config.jwt.secret, {
+                    expiresIn: this.app.config.jwt.expiresIn,
+                });
+                this.ctx.body = {
+                    code: 200,
+                    msg: '登录成功',
+                    data: {
+                        token: token,
+                    },
+                };
+                return;
             }
         }
-        if (token) {
-            this.ctx.body = {
-                code: 2000,
-                token: token,
-                msg: '登录成功',
-            };
-        }
-        else {
-            this.ctx.body =
-            {
-                code: 5000,
-                msg: '用户名或密码错误',
-            };
-        }
+        this.ctx.body =
+        {
+            code: 500,
+            msg: '用户名或密码错误',
+            data: null,
+        };
     }
     //Token验证
     async getMessage() {//jwtmessage
         this.ctx.body = {
-            code: 2000,
+            code: 200,
             msg: "Token验证成功",
-        }
-
+            data: null,
+        };
     }
 }
 module.exports = JwtController;

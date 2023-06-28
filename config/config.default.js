@@ -53,7 +53,8 @@ module.exports = appInfo => {
   }
   //jwt
   config.jwt = {
-    secret: "123456"//自定义 token 的加密条件字符串
+    secret: "123456",//自定义 token 的加密条件字符串
+    expiresIn: '1h',//token 有效期
   };
   // //mysql
   // config.mysql = {
